@@ -49,16 +49,22 @@ $$(document).on('page:init', '.page[data-name="juego"]', function (e) {
     //agregue el id limpiar al boton y programe la funcion
     $$("#limpiar").on('click', resultado); 
 
+    //JUGADOR 1
     $$(".numsj1").on('click', function(){fnCatNums(this.id)});
-    $$(".combsj1").on('click', function(){fnCatCombs(this.id)});
+    //$$(".combsj1").on('click', function(){fnCatCombs(this.id)});
+    //JUGADOR 2
+    $$(".numsj2").on('click', function(){fnCatNums(this.id)});
+    //$$(".combsj1").on('click', function(){fnCatCombs(this.id)});
+    //AMBOS
     $$(".radioNumero").on('click', function(){fnRadioNum(this.value)});
     $$(".radioJuego").on('click', function(){fnRadioJuego(this.value)});
-    //$$(".varsheet").on('click',fnVarSheet);
+
 
 })
 
 /*FUNCIONES*/
 tj1 = 0; tj2 = 0; //agregue: total jugador 1 y total jugador 2
+puntosamostrar=0; combi=0; jugador="";
 
 var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = ""; 
     function fnajugar() {
@@ -78,65 +84,92 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";
     }
 
     function fnCatNums(tid){
-        pamult=tid.slice(-1);
-        console.log("clickeado en "+pamult);
+        jugador=tid.slice(1,2);
+        pamult=parseInt(tid.slice(-2));
+        switch (pamult) {
+            case 7:
+            combi=20
+            //console.log("ESCALERA");
+                break
+            case 8:
+            combi=30
+            //console.log("FULL");
+                break
+            case 9:
+            combi=40
+            //console.log("POKER");
+                break
+            case 10:
+            combi=50
+            console.log("GENERALA"+combi);
+                break
+            case 11:
+            combi=100
+            //console.log("DOBLEGE");
+                break
+            default:
+            console.log("clickeado en "+pamult);
+        }
     }
 
-    function fnCatCombs(comb){
-        combinacion = comb;
-        console.log("combinacion realizada " + combinacion)
-    }
+    //function fnCatCombs(comb){
+
 
     function fnRadioNum(radio){
         radionum = radio;
-        console.log("opcion de dado " + pamult + ". Dado por Cantidad de veces: " + pamult*radionum);
-        $$("#j1"+pamult).html(pamult*radionum);
+        puntosamostrar=pamult*radionum;
+        console.log("JUGADOR "+jugador+" PUNTOS: "+puntosamostrar);
+        if (jugador==1) {
+            fnMostrar(1);
+        } else {
+            fnMostrar(2)
+        };
     }
 
     function fnRadioJuego(radio){
-        resultado()
-        if (radio == "Tachar") {
-            $$("#"+combinacion).html(0);
+        k=parseInt(radio);
+        switch (k) {
+            case 7:
+            puntosamostrar=combi+5;
+                break
+            case 8:
+            puntosamostrar=combi;
+                break
+            default:
+            puntosamostrar=0;
+        }
+        if (jugador==1) {
+            fnMostrar(1);
         } else {
-            switch (combinacion) {
-            case "escalera":
-                if (radio == "Servido") {
-                    $$("#"+combinacion).html(25);
-                } else {
-                    $$("#"+combinacion).html(20);
-                };
-            break;
-            case "full":
-                if (radio == "Servido") {
-                    $$("#"+combinacion).html(35);
-                } else {
-                    $$("#"+combinacion).html(30);
-                };
-            break;
-            case "poker":
-                if (radio == "Servido") {
-                    $$("#"+combinacion).html(45);
-                } else {
-                    $$("#"+combinacion).html(40);
-                };
-            break;
-            case "generala":
-                if (radio == "Servido") {
-                    $$("#"+combinacion).html("GANÓ");
-                } else {
-                    $$("#"+combinacion).html(50);
-                };
-            break;
-            case "generala2":
-                if (radio == "Servido") {
-                    $$("#"+combinacion).html("GANÓ");
-                } else {
-                    $$("#"+combinacion).html(100);
-                };
-            break;
-            };
+            fnMostrar(2)
         };
-        
+        console.log(puntosamostrar);        
+    }
+
+    function fnMostrar(a) {
+        if (a==1) {
+            if (puntosamostrar==55 || puntosamostrar==105) {
+                    $$("#j"+a+pamult).html("GANADOR");
+            } else {
+                if (pamult<=9) {
+                $$("#j"+a+"0"+pamult).html(puntosamostrar);    
+                } else{
+                $$("#j"+a+pamult).html(puntosamostrar);        
+                }
+                    
+            }              
+        } else {
+            if (puntosamostrar==55 || puntosamostrar==105) {
+                    $$("#j"+a+pamult).html("GANADOR");
+            } else {
+                if (pamult<=9) {
+                $$("#j"+a+"0"+pamult).html(puntosamostrar);    
+                } else{
+                $$("#j"+a+pamult).html(puntosamostrar);        
+                }
+                    
+            }            
+        }
     }
 
     function resultado() {
@@ -156,10 +189,4 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";
             }
                
         });
-    }
-        
-    
-    function fnVarSheet() {
-        variable=$$(".varsheet").val(this.value);
-        console.log("VAR SHEET = "+variable);
     }
