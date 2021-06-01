@@ -47,7 +47,10 @@ $$(document).on('page:init', '.page[data-name="juego"]', function (e) {
     $$("#fin").on('click', fnfin);
 
     //agregue el id limpiar al boton y programe la funcion
-    $$("#limpiar").on('click', resultado); 
+    $$("#limpiar").on('click', limpiar);
+
+    //puntos
+    $$("#puntaje").on('click', resultado); 
 
     //JUGADOR 1
     $$(".numsj1").on('click', function(){fnCatNums(this.id)});
@@ -174,19 +177,20 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";
 
     function resultado() {
         console.log("suma")
-        var suma = 0;
+        var suma1 = 0; suma2=0;
         $$('.numsj1').each(function(){
             if ($$(this).text() != "--") {
-                suma += parseInt($$(this).text());
-                console.log(suma)
+                suma1 += parseInt($$(this).text());
+                console.log("J1 "+suma1)
             }
 
         });
-        $$('.combsj1').each(function(){
+        $$('.numsj2').each(function(){
             if ($$(this).text() != "--") {
-                suma += parseInt($$(this).text());
-                console.log(suma)
+                suma2 += parseInt($$(this).text());
+                console.log("J2 "+suma2)
             }
                
         });
+        alert(jug1+": "+suma1+"  "+jug2+": "+suma2)
     }
