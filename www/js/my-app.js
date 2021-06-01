@@ -47,12 +47,12 @@ $$(document).on('page:init', '.page[data-name="juego"]', function (e) {
     $$("#fin").on('click', fnfin);
 
     //agregue el id limpiar al boton y programe la funcion
-    $$("#limpiar").on('click', resultado); 
+    $$("#limpiar").on('click', function(){resultado(1)});
 
     $$(".numsj1").on('click', function(){fnCatNums(this.id, 1)});
     $$(".numsj2").on('click', function(){fnCatNums(this.id, 2)});
-    $$(".combsj1").on('click', function(){fnCatCombs(this.id, 1)});
-    $$(".combsj2").on('click', function(){fnCatCombs(this.id, 2)});
+    $$(".combsj1").on('click', function(){fnCatCombs(this.id)});
+    $$(".combsj2").on('click', function(){fnCatCombs(this.id)});
     $$(".radioNumero").on('click', function(){fnRadioNum(this.value)});
     $$(".radioJuego").on('click', function(){fnRadioJuego(this.value)});
     //$$(".varsheet").on('click',fnVarSheet);
@@ -89,10 +89,7 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";  j
     }
 
     function fnCatCombs(comb){
-        if (js == 1)
-        j2Selec = 0
-        else
-        j2Selec = 1
+        
         combinacion = comb;
         console.log("combinacion realizada " + combinacion)
     }
@@ -109,24 +106,23 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";  j
     }
 
     function fnRadioJuego(radio){
+
         if (radio == "Tachar") {
-            $$("#"+combinacion).html(0);
+                $$("#"+combinacion).html(0);
         } else {
             switch (combinacion) {
+            case "j2escalera":
             case "escalera":
                 if (radio == "Servido") {
-                    console.log(j2Selec)
-                    if (j2Selec) {
-                        $$("#j2"+"escalera").html(25)
-                    }else{
-                        $$("#"+"escalera").html(25);
-                    }
-                    
+
+                        $$("#"+combinacion).html(25);
+  
                 } else {
                     $$("#"+combinacion).html(20);
                 };
             break;
             case "full":
+            case "j2full":
                 if (radio == "Servido") {
                     $$("#"+combinacion).html(35);
                 } else {
@@ -134,6 +130,7 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";  j
                 };
             break;
             case "poker":
+            case "j2poker":
                 if (radio == "Servido") {
                     $$("#"+combinacion).html(45);
                 } else {
@@ -141,6 +138,7 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";  j
                 };
             break;
             case "generala":
+            case "j2generala":
                 if (radio == "Servido") {
                     $$("#"+combinacion).html("GANÓ");
                 } else {
@@ -148,6 +146,7 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";  j
                 };
             break;
             case "generala2":
+            case "j2generala2":
                 if (radio == "Servido") {
                     $$("#"+combinacion).html("GANÓ");
                 } else {
@@ -159,23 +158,22 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";  j
         
     }
 
-    function resultado() {
+    function resultado(jd) {
         console.log("suma")
         var suma = 0;
-        $$('.numsj1').each(function(){
+        $$('.numsj'+jd).each(function(){
             if ($$(this).text() != "--") {
                 suma += parseInt($$(this).text());
-                console.log(suma)
             }
 
         });
-        $$('.combsj1').each(function(){
+        $$('.combsj' + jd).each(function(){
             if ($$(this).text() != "--") {
                 suma += parseInt($$(this).text());
-                console.log(suma)
             }
                
         });
+        $$("#totalj" + jd).text(suma)
     }
         
     
