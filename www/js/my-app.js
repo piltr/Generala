@@ -49,8 +49,10 @@ $$(document).on('page:init', '.page[data-name="juego"]', function (e) {
     //agregue el id limpiar al boton y programe la funcion
     $$("#limpiar").on('click', resultado); 
 
-    $$(".numsj1").on('click', function(){fnCatNums(this.id)});
-    $$(".combsj1").on('click', function(){fnCatCombs(this.id)});
+    $$(".numsj1").on('click', function(){fnCatNums(this.id, 1)});
+    $$(".numsj2").on('click', function(){fnCatNums(this.id, 2)});
+    $$(".combsj1").on('click', function(){fnCatCombs(this.id, 1)});
+    $$(".combsj2").on('click', function(){fnCatCombs(this.id, 2)});
     $$(".radioNumero").on('click', function(){fnRadioNum(this.value)});
     $$(".radioJuego").on('click', function(){fnRadioJuego(this.value)});
     //$$(".varsheet").on('click',fnVarSheet);
@@ -60,7 +62,7 @@ $$(document).on('page:init', '.page[data-name="juego"]', function (e) {
 /*FUNCIONES*/
 tj1 = 0; tj2 = 0; //agregue: total jugador 1 y total jugador 2
 
-var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = ""; 
+var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";  j2Selec = 0;
     function fnajugar() {
         jug1=$$("#nombre1p1").val();
         if (jug1=="") {jug1="Jugador 1"};
@@ -77,12 +79,20 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";
         mainView.router.navigate('/index/');
     }
 
-    function fnCatNums(tid){
+    function fnCatNums(tid, js){
         pamult=tid.slice(-1);
+        if (js == 1)
+        j2Selec = 0
+        else
+        j2Selec = 1
         console.log("clickeado en "+pamult);
     }
 
     function fnCatCombs(comb){
+        if (js == 1)
+        j2Selec = 0
+        else
+        j2Selec = 1
         combinacion = comb;
         console.log("combinacion realizada " + combinacion)
     }
@@ -90,18 +100,28 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";
     function fnRadioNum(radio){
         radionum = radio;
         console.log("opcion de dado " + pamult + ". Dado por Cantidad de veces: " + pamult*radionum);
-        $$("#j1"+pamult).html(pamult*radionum);
+        if (j2Selec) {
+            $$("#j2"+pamult).html(pamult*radionum);
+        }else{
+            $$("#j1"+pamult).html(pamult*radionum);
+        }
+        
     }
 
     function fnRadioJuego(radio){
-        resultado()
         if (radio == "Tachar") {
             $$("#"+combinacion).html(0);
         } else {
             switch (combinacion) {
             case "escalera":
                 if (radio == "Servido") {
-                    $$("#"+combinacion).html(25);
+                    console.log(j2Selec)
+                    if (j2Selec) {
+                        $$("#j2"+"escalera").html(25)
+                    }else{
+                        $$("#"+"escalera").html(25);
+                    }
+                    
                 } else {
                     $$("#"+combinacion).html(20);
                 };
