@@ -47,10 +47,13 @@ $$(document).on('page:init', '.page[data-name="juego"]', function (e) {
     $$("#fin").on('click', fnfin);
 
     //agregue el id limpiar al boton y programe la funcion
-    $$("#limpiar").on('click', resultado); 
+    //$$("#limpiar").on('click', resultado); 
+    $$("#calcular").on('click', resultado);
 
     $$(".numsj1").on('click', function(){fnCatNums(this.id)});
     $$(".combsj1").on('click', function(){fnCatCombs(this.id)});
+    $$(".numsj2").on('click', function(){fnCatNums(this.id)});
+    $$(".combsj2").on('click', function(){fnCatCombs(this.id)});
     $$(".radioNumero").on('click', function(){fnRadioNum(this.value)});
     $$(".radioJuego").on('click', function(){fnRadioJuego(this.value)});
     //$$(".varsheet").on('click',fnVarSheet);
@@ -141,21 +144,40 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";
 
     function resultado() {
         console.log("suma")
-        var suma = 0;
+        var sumaJ1 = 0;
+        var sumaJ2 = 0;
         $$('.numsj1').each(function(){
             if ($$(this).text() != "--") {
-                suma += parseInt($$(this).text());
-                console.log(suma)
+                sumaJ1 += parseInt($$(this).text());
+                console.log(sumaJ1)
             }
 
         });
         $$('.combsj1').each(function(){
             if ($$(this).text() != "--") {
-                suma += parseInt($$(this).text());
-                console.log(suma)
+                sumaJ1 += parseInt($$(this).text());
+                console.log(sumaJ1)
             }
                
         });
+        $$('.numsj2').each(function(){
+            if ($$(this).text() != "--") {
+                sumaJ2 += parseInt($$(this).text());
+                console.log(sumaJ2)
+            }
+
+        });
+        $$('.combsj2').each(function(){
+            if ($$(this).text() != "--") {
+                sumaJ2 += parseInt($$(this).text());
+                console.log(sumaJ2)
+            }
+               
+        });
+
+        $$("#resJ1").html(sumaJ1);
+        $$("#resJ2").html(sumaJ2);
+
     }
         
     
