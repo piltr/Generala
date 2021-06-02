@@ -55,7 +55,9 @@ $$(document).on('page:init', '.page[data-name="juego"]', function (e) {
     $$(".numsj2").on('click', function(){fnCatNums(this.id)});
     $$(".combsj2").on('click', function(){fnCatCombs(this.id)});
     $$(".radioNumero").on('click', function(){fnRadioNum(this.value)});
+    $$(".radioNumero").on('click', function(){fnRadioNum2(this.value)});
     $$(".radioJuego").on('click', function(){fnRadioJuego(this.value)});
+    $$(".radioJuego").on('click', function(){fnRadioJuego2(this.value)});
     //$$(".varsheet").on('click',fnVarSheet);
 
 })
@@ -95,6 +97,14 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";
         console.log("opcion de dado " + pamult + ". Dado por Cantidad de veces: " + pamult*radionum);
         $$("#j1"+pamult).html(pamult*radionum);
     }
+    function fnRadioNum2(radio){
+        radionum = radio;
+        console.log("opcion de dado " + pamult + ". Dado por Cantidad de veces: " + pamult*radionum);
+        $$("#j2"+pamult).html(pamult*radionum);
+    }
+
+
+
 
     function fnRadioJuego(radio){
         resultado()
@@ -135,6 +145,51 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";
                     $$("#"+combinacion).html("GANÓ");
                 } else {
                     $$("#"+combinacion).html(100);
+                };
+            break;
+            };
+        };
+        
+    }
+    function fnRadioJuego2(radio){
+        resultado()
+        if (radio == "Tachar") {
+            $$("#" + combinacion + ".2").html(0);
+        } else {
+            switch (combinacion) {
+            case "escalera":
+                if (radio == "Servido") {
+                    $$("#"+combinacion + ".2").html(25);
+                } else {
+                    $$("#"+combinacion + ".2").html(20);
+                };
+            break;
+            case "full":
+                if (radio == "Servido") {
+                    $$("#"+combinacion + ".2").html(35);
+                } else {
+                    $$("#"+combinacion + ".2").html(30);
+                };
+            break;
+            case "poker":
+                if (radio == "Servido") {
+                    $$("#"+combinacion + ".2").html(45);
+                } else {
+                    $$("#"+combinacion + ".2").html(40);
+                };
+            break;
+            case "generala":
+                if (radio == "Servido") {
+                    $$("#"+combinacion + ".2").html("GANÓ");
+                } else {
+                    $$("#"+combinacion + ".2").html(50);
+                };
+            break;
+            case "generala2":
+                if (radio == "Servido") {
+                    $$("#"+combinacion + ".2").html("GANÓ");
+                } else {
+                    $$("#"+combinacion + ".2").html(100);
                 };
             break;
             };
