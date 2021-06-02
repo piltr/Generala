@@ -147,7 +147,7 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = ""; j2
                 };
             break;
             case "poker1":
-            case "jpoker2":
+            case "poker2":
                 if (radio == "Servido") {
                     $$("#"+combinacion).html(45);
                 } else {
