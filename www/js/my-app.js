@@ -57,7 +57,7 @@ $$(document).on('page:init', '.page[data-name="juego"]', function (e) {
     $$(".combsj2").on('click', function(){fnCatCombs(this.id)});
     $$(".radioNumero").on('click', function(){fnRadioNum(this.value)});
     $$(".radioJuego").on('click', function(){fnRadioJuego(this.value)});
-    //$$(".varsheet").on('click',fnVarSheet);
+
 })
 
 $$(document).on('page:init', '.page[data-name="fin"]', function (e) {
@@ -66,7 +66,7 @@ $$(document).on('page:init', '.page[data-name="fin"]', function (e) {
     $$("#nombrej2_fin").html(jug2+":");
     $$("#puntajej1_fin").html(tj1+" puntos");
     $$("#puntajej2_fin").html(tj2+" puntos");
-    $$("#gano").html(gano+" !");
+    $$("#gano").html(gano+"!");
     $$("#nueva").on('click', fnfin);
 })
 
@@ -85,10 +85,15 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = ""; j2
     function limpiar() {
         $$(".numsj1").html("--");
         $$(".numsj2").html("--");
+        $$(".combsj1").html("--");
+        $$(".combsj2").html("--");
     }
 
     function fnfin() {
         mainView.router.navigate('/index/');
+        tj1=0;
+        tj2=0;
+        gano="";
     }
 
     function fnCatNums(tid, js){
@@ -180,8 +185,6 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = ""; j2
                 tj1 += parseInt($$(this).text());
             };
         });
-        $$("#totalj" + jd).text(tj1);
-
         $$('.numsj'+(jd+1)).each(function(){
             if ($$(this).text() != "--") {
                 tj2 += parseInt($$(this).text());
@@ -192,7 +195,6 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = ""; j2
                 tj2 += parseInt($$(this).text());
             };
         });
-        $$("#totalj" + (jd+1)).text(tj2);
         console.log(jug1 + " = " + tj1);
         console.log(jug2 + " = " + tj2);
 
@@ -208,7 +210,3 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = ""; j2
     }
         
     
-    function fnVarSheet() {
-        variable=$$(".varsheet").val(this.value);
-        console.log("VAR SHEET = "+variable);
-    }
