@@ -18,6 +18,7 @@ var app = new Framework7({
       {path: '/index/',url: 'index.html',},
       {path: '/juego/',url: 'juego.html',},
       {path: '/fin/',url: 'fin.html',},
+      {path: '/fin2/',url: 'fin2.html',},
     ]
     // ... other parameters
   });
@@ -61,12 +62,16 @@ $$(document).on('page:init', '.page[data-name="juego"]', function (e) {
 })
 
 $$(document).on('page:init', '.page[data-name="fin"]', function (e) {
-    console.log("JUgador 1: "+jug1+"/Jugador 2: "+jug2);
     $$("#nombrej1_fin").html(jug1+":");
     $$("#nombrej2_fin").html(jug2+":");
     $$("#puntajej1_fin").html(tj1+" puntos");
     $$("#puntajej2_fin").html(tj2+" puntos");
     $$("#gano").html(gano+" !");
+    $$("#nueva").on('click', fnfin);
+})
+
+$$(document).on('page:init', '.page[data-name="fin2"]', function (e) {
+    $$("#gano_generala").html(gano+" !");
     $$("#nueva").on('click', fnfin);
 })
 
@@ -101,7 +106,6 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = ""; j2
     }
 
     function fnCatCombs(comb){
-        
         combinacion = comb;
         console.log("combinacion realizada " + combinacion)
     }
@@ -114,59 +118,65 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = ""; j2
         }else{
             $$("#j1"+pamult).html(pamult*radionum);
         }
-        
     }
 
     function fnRadioJuego(radio){
-
         if (radio == "Tachar") {
                 $$("#"+combinacion).html(0);
         } else {
             switch (combinacion) {
-            case "j2escalera":
-            case "escalera":
+            case "escalera1":
+            case "escalera2":
                 if (radio == "Servido") {
                     $$("#"+combinacion).html(25);
-  
                 } else {
                     $$("#"+combinacion).html(20);
                 };
             break;
-            case "full":
-            case "j2full":
+            case "full1":
+            case "full2":
                 if (radio == "Servido") {
                     $$("#"+combinacion).html(35);
                 } else {
                     $$("#"+combinacion).html(30);
                 };
             break;
-            case "poker":
-            case "j2poker":
+            case "poker1":
+            case "jpoker2":
                 if (radio == "Servido") {
                     $$("#"+combinacion).html(45);
                 } else {
                     $$("#"+combinacion).html(40);
                 };
             break;
-            case "generala":
-            case "j2generala":
+            case "generala1":
+            case "generala2":
                 if (radio == "Servido") {
-                    $$("#"+combinacion).html("GANÓ");
+                    if (combinacion.slice(-1)==1) {
+                        gano = jug1;
+                    } else {
+                        gano = jug2;
+                    };
+                    mainView.router.navigate('/fin2/');
                 } else {
                     $$("#"+combinacion).html(50);
                 };
             break;
-            case "generala2":
-            case "j2generala2":
+            case "generala21":
+            case "generala22":
                 if (radio == "Servido") {
-                    $$("#"+combinacion).html("GANÓ");
+                    if (combinacion.slice(-1)==1) {
+                        gano = jug1;
+                    } else {
+                        gano = jug2;
+                    };
+                    mainView.router.navigate('/fin2/');
                 } else {
                     $$("#"+combinacion).html(100);
                 };
             break;
             };
         };
-        
     }
 
     function resultado(jd) {
@@ -203,7 +213,6 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = ""; j2
         } else {
             gano = "Hubo un empate!";
         };
-
         mainView.router.navigate('/fin/');
     }
         
