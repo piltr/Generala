@@ -17,6 +17,8 @@ var app = new Framework7({
     routes: [
       {path: '/index/',url: 'index.html',},
       {path: '/juego/',url: 'juego.html',},
+      {path: '/fin/',url: 'fin.html',},
+      {path: '/fin2/',url: 'fin2.html',},
     ]
     // ... other parameters
   });
@@ -38,8 +40,8 @@ $$(document).on('page:init', function (e) {
 // Option 2. Using live 'page:init' event handlers for each page
 $$(document).on('page:init', '.page[data-name="index"]', function (e) {
     $$("#iniciar").on('click', fnajugar);
-
 })
+
 $$(document).on('page:init', '.page[data-name="juego"]', function (e) {
     console.log("JUgador 1: "+jug1+"/Jugador 2: "+jug2);
     $$("#nombre1p2").html(jug1);
@@ -47,29 +49,36 @@ $$(document).on('page:init', '.page[data-name="juego"]', function (e) {
     $$("#fin").on('click', fnfin);
 
     //agregue el id limpiar al boton y programe la funcion
-    //$$("#limpiar").on('click', resultado); 
-    $$("#calcular").on('click', resultado);
+    $$("#resultado").on('click', function(){resultado(1)});
+    $$("#limpiar").on('click', limpiar);
 
-    $$(".numsj1").on('click', function(){fnCatNums(this.id)});
+    $$(".numsj1").on('click', function(){fnCatNums(this.id, 1)});
+    $$(".numsj2").on('click', function(){fnCatNums(this.id, 2)});
     $$(".combsj1").on('click', function(){fnCatCombs(this.id)});
+    $$(".combsj2").on('click', function(){fnCatCombs(this.id)});
     $$(".radioNumero").on('click', function(){fnRadioNum(this.value)});
     $$(".radioJuego").on('click', function(){fnRadioJuego(this.value)});
 
-    $$(".numsj2").on('click', function(){fnLinea(this.id)});
-    $$(".combsj2").on('click', function(){fnCombinacion(this.id)});
-    $$(".radioNumero").on('click', function(){fnRadioVal(this.value)});
-    $$(".radioJuego").on('click', function(){fnRadioValor(this.value)});
-    
-    //$$(".varsheet").on('click',fnVarSheet);
+})
 
+$$(document).on('page:init', '.page[data-name="fin"]', function (e) {
+    $$("#nombrej1_fin").html(jug1+":");
+    $$("#nombrej2_fin").html(jug2+":");
+    $$("#puntajej1_fin").html(tj1+" puntos");
+    $$("#puntajej2_fin").html(tj2+" puntos");
+    $$("#gano").html(gano+"!");
+    $$("#nueva").on('click', fnfin);
+})
+
+$$(document).on('page:init', '.page[data-name="fin2"]', function (e) {
+    $$("#gano_generala").html(gano+" !");
+    $$("#nueva").on('click', fnfin);
 })
 
 /*FUNCIONES*/
 tj1 = 0; tj2 = 0; //agregue: total jugador 1 y total jugador 2
 
-var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = "";
-var linea= ""; combin = ""; radioVal = "";
-
+var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = ""; j2Selec = 0; gano = "";
     function fnajugar() {
         jug1=$$("#nombre1p1").val();
         if (jug1=="") {jug1="Jugador 1"};
@@ -81,18 +90,24 @@ var linea= ""; combin = ""; radioVal = "";
     function limpiar() {
         $$(".numsj1").html("--");
         $$(".numsj2").html("--");
-    }
-    function fnfin() {
-        mainView.router.navigate('/index/');
+        $$(".combsj1").html("--");
+        $$(".combsj2").html("--");
     }
 
-    function fnCatNums(tid){
-        pamult=tid.slice(-1);
-        console.log("clickeado en "+pamult);
+    function fnfin() {
+        mainView.router.navigate('/index/');
+        tj1=0;
+        tj2=0;
+        gano="";
     }
-    function fnLinea(valor){
-        linea = valor.slice(-1);
-        console.log("La linea es " + linea);
+
+    function fnCatNums(tid, js){
+        pamult=tid.slice(-1);
+        if (js == 1)
+        j2Selec = 0
+        else
+        j2Selec = 1
+        console.log("clickeado en "+pamult);
     }
 
     function fnCatCombs(comb){
@@ -100,156 +115,112 @@ var linea= ""; combin = ""; radioVal = "";
         console.log("combinacion realizada " + combinacion)
     }
 
-    function fnCombinacion(combi){
-        combin = combi;
-        console.log("La combinacion es " + combin);
-    }
-
     function fnRadioNum(radio){
         radionum = radio;
         console.log("opcion de dado " + pamult + ". Dado por Cantidad de veces: " + pamult*radionum);
-        $$("#j1"+pamult).html(pamult*radionum);
+        if (j2Selec) {
+            $$("#j2"+pamult).html(pamult*radionum);
+        }else{
+            $$("#j1"+pamult).html(pamult*radionum);
+        }
     }
-
-    function fnRadioVal(val){
-        radioValor = val;
-        $$("#j2" + linea).html(linea*radioValor);
-    }
-    
 
     function fnRadioJuego(radio){
-        resultado()
         if (radio == "Tachar") {
-            $$("#"+combinacion).html(0);
+                $$("#"+combinacion).html(0);
         } else {
             switch (combinacion) {
-            case "escalera":
+            case "escalera1":
+            case "escalera2":
                 if (radio == "Servido") {
                     $$("#"+combinacion).html(25);
                 } else {
                     $$("#"+combinacion).html(20);
                 };
             break;
-            case "full":
+            case "full1":
+            case "full2":
                 if (radio == "Servido") {
                     $$("#"+combinacion).html(35);
                 } else {
                     $$("#"+combinacion).html(30);
                 };
             break;
-            case "poker":
+            case "poker1":
+            case "poker2":
                 if (radio == "Servido") {
                     $$("#"+combinacion).html(45);
                 } else {
                     $$("#"+combinacion).html(40);
                 };
             break;
-            case "generala":
+            case "generala1":
+            case "generala2":
                 if (radio == "Servido") {
-                    $$("#"+combinacion).html("GANÓ");
+                    if (combinacion.slice(-1)==1) {
+                        gano = jug1;
+                    } else {
+                        gano = jug2;
+                    };
+                    mainView.router.navigate('/fin2/');
                 } else {
                     $$("#"+combinacion).html(50);
                 };
             break;
-            case "generala2":
+            case "generala21":
+            case "generala22":
                 if (radio == "Servido") {
-                    $$("#"+combinacion).html("GANÓ");
+                    if (combinacion.slice(-1)==1) {
+                        gano = jug1;
+                    } else {
+                        gano = jug2;
+                    };
+                    mainView.router.navigate('/fin2/');
                 } else {
                     $$("#"+combinacion).html(100);
                 };
             break;
             };
         };
-        
     }
-    function fnRadioValor(elem){
-        resultado()
-        if (elem == "Tachar") {
-            $$("#"+combin).html(0);
-        } else {
-            switch (combin) {
-            case "escalera":
-                if (elem == "Servido") {
-                    $$("#"+combin).html(25);
-                } else {
-                    $$("#"+combin).html(20);
-                };
-            break;
-            case "full":
-                if (elem == "Servido") {
-                    $$("#"+combin).html(35);
-                } else {
-                    $$("#"+combin).html(30);
-                };
-            break;
-            case "poker":
-                if (radio == "Servido") {
-                    $$("#"+combin).html(45);
-                } else {
-                    $$("#"+combin).html(40);
-                };
-            break;
-            case "generala":
-                if (elem == "Servido") {
-                    $$("#"+combin).html("GANÓ");
-                } else {
-                    $$("#"+combin).html(50);
-                };
-            break;
-            case "generala":
-                if (elem == "Servido") {
-                    $$("#"+combin).html("GANÓ");
-                } else {
-                    $$("#"+combin).html(100);
-                };
-            break;
+
+    function resultado(jd) {
+        $$('.numsj'+jd).each(function(){
+            if ($$(this).text() != "--") {
+                tj1 += parseInt($$(this).text());
             };
+        });
+        $$('.combsj' + jd).each(function(){
+            if ($$(this).text() != "--") {
+                tj1 += parseInt($$(this).text());
+            };
+        });
+        $$('.numsj'+(jd+1)).each(function(){
+            if ($$(this).text() != "--") {
+                tj2 += parseInt($$(this).text());
+            };
+        });
+        $$('.combsj' + (jd+1)).each(function(){
+            if ($$(this).text() != "--") {
+                tj2 += parseInt($$(this).text());
+            };
+        });
+        console.log(jug1 + " = " + tj1);
+        console.log(jug2 + " = " + tj2);
+
+        if (tj1 > tj2) {
+            gano = jug1;
+        } else if (tj1 < tj2) {
+            gano = jug2;
+        } else {
+            gano = "Hubo un empate!";
         };
+        if (tj1==0 && tj2==0) {
+            alert("Nadie ha sumado puntos todavía")
+        }else {
+            mainView.router.navigate('/fin/');    
+        }
         
-    }
-    
-    
-
-    function resultado() {
-        console.log("suma")
-        var sumaJ1 = 0;
-        var sumaJ2 = 0;
-        $$('.numsj1').each(function(){
-            if ($$(this).text() != "--") {
-                sumaJ1 += parseInt($$(this).text());
-                console.log(sumaJ1)
-            }
-
-        });
-        $$('.combsj1').each(function(){
-            if ($$(this).text() != "--") {
-                sumaJ1 += parseInt($$(this).text());
-                console.log(sumaJ1)
-            }
-               
-        });
-        $$('.numsj2').each(function(){
-            if ($$(this).text() != "--") {
-                sumaJ2 += parseInt($$(this).text());
-                console.log(sumaJ2)
-            }
-
-        });
-        $$('.combsj2').each(function(){
-            if ($$(this).text() != "--") {
-                sumaJ2 += parseInt($$(this).text());
-                console.log(sumaJ2)
-            }
-               
-        });
-
-        $$("#resJ1").html(sumaJ1);
-        $$("#resJ2").html(sumaJ2);
-
     }
         
     
-    function fnVarSheet() {
-        variable=$$(".varsheet").val(this.value);
-        console.log("VAR SHEET = "+variable);
-    }
