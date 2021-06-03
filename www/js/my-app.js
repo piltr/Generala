@@ -196,7 +196,7 @@ var linea= ""; combin = ""; radioVal = "";
                     $$("#"+combin).html(50);
                 };
             break;
-            case "generala2":
+            case "generala":
                 if (elem == "Servido") {
                     $$("#"+combin).html("GANÓ");
                 } else {
