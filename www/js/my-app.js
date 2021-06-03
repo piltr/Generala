@@ -147,7 +147,7 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = ""; j2
                 };
             break;
             case "poker1":
-            case "jpoker2":
+            case "poker2":
                 if (radio == "Servido") {
                     $$("#"+combinacion).html(45);
                 } else {
@@ -215,7 +215,12 @@ var jug1=""; jug2=""; variable=0; pamult=""; radionum = ""; combinacion = ""; j2
         } else {
             gano = "Hubo un empate!";
         };
-        mainView.router.navigate('/fin/');
+        if (tj1==0 && tj2==0) {
+            alert("Nadie ha sumado puntos todavía")
+        }else {
+            mainView.router.navigate('/fin/');    
+        }
+        
     }
         
     
